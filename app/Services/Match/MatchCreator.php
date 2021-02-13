@@ -5,27 +5,35 @@ namespace App\Services\Match;
 
 use App\Exceptions\MatchAlreadyExists;
 use App\Exceptions\MatchNotCreated;
+use App\Exceptions\PartnerNotExists;
+use App\Exceptions\UserNotExists;
 use App\Repositories\RepositoryInterface;
 
 class MatchCreator
 {
 
-    private $matchRepository;
+    private $matchRepo;
+    private $userRepo;
+    private $partnerRepo;
 
-    public function __construct(RepositoryInterface $matchRepository)
+    public function __construct(RepositoryInterface $matchRepo, RepositoryInterface $userRepo, RepositoryInterface $partnerRepo)
     {
-        $this->matchRepository = $matchRepository;
+        $this->matchRepo = $matchRepo;
+        $this->userRepo = $userRepo;
+        $this->partnerRepo = $partnerRepo;
     }
 
-    public function execute(int $userId, int $partnerId)
+    public function execute(?int $userId, ?int $partnerId)
     {
-        try {
-            $this->matchRepository->create(['user_id' => $userId, 'partner_id' => $partnerId]);
-        } catch (MatchAlreadyExists $e) {
-            throw new MatchAlreadyExists($e->getMessage());
-        } catch (\Exception $e) {
-            throw new MatchNotCreated($e->getMessage());
+        if (!$this->userRepo->exists($userId)) {
+            throw new UserNotExists();
         }
+
+        if (!$this->partnerRepo->exists($partnerId)) {
+            throw new PartnerNotExists();
+        }
+
+        $this->matchRepo->create(['user_id' => $userId, 'partner_id' => $partnerId]);
     }
 
 }

@@ -26,18 +26,20 @@ class MatchRepository implements RepositoryInterface
         $query = '
             SELECT *
             FROM match 
-            WHERE 1=1';
+            WHERE 1=1 ';
 
         $where = [];
         foreach ($data as $field => $value) {
             $where[] = $field . ' = \'' . $value . '\'';
         }
 
-        $query .= implode(' AND ', $where);
+        if (count($where) > 0) {
+            $query .= 'AND ' . implode(' AND ', $where);
+        }
 
         $result = DB::selectOne($query);
 
-        return count($result);
+        return !is_null($result);
     }
 
     public function create(array $data)
@@ -57,7 +59,7 @@ class MatchRepository implements RepositoryInterface
             $values[] = '\'' . $value . '\'';
         }
 
-        $query .= implode(',', $fields);
+        $query .= '(' . implode(',', $fields) . ')';
         $query .= '
             VALUES
             ('. implode(',', $values) . ')';

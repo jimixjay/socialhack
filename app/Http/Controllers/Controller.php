@@ -22,6 +22,21 @@ class Controller extends BaseController
             $responseMessage = $e->getMessage();
         }
 
-        return responseError($errorCode, $responseMessage, $e, $httpStatus);
+        return $this->responseError($errorCode, $responseMessage, $e, $httpStatus);
+    }
+
+    private function responseError($errorCode, $errorMessage, $exception, $httpStatusCode = 500)
+    {
+        $responseArray = [
+            'errorCode' => $errorCode,
+            'msg'       => $errorMessage,
+            'msg_complete' => $exception->getMessage(),
+            'trace' => $exception->getTraceAsString(),
+        ];
+
+        return response()->json([
+                'error' => $responseArray
+            ]
+            , $httpStatusCode);
     }
 }

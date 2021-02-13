@@ -10,7 +10,7 @@ class UserRepository implements RepositoryInterface
     {
         $query = '
             SELECT ' . implode(',', $columns) . '
-            FROM user
+            FROM "user"
         ';
 
         return DB::select($query);
@@ -24,11 +24,11 @@ class UserRepository implements RepositoryInterface
 
         $query = '
             SELECT *
-            FROM user 
+            FROM "user" 
             WHERE user_id = ' . $id;
 
         $result = DB::selectOne($query);
 
-        return count($result);
+        return !is_null($result);
     }
 }

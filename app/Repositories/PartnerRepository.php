@@ -29,6 +29,6 @@ class PartnerRepository implements RepositoryInterface
 
         $result = DB::selectOne($query);
 
-        return count($result);
+        return !is_null($result);
     }
 }
