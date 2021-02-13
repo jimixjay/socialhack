@@ -11,6 +11,7 @@ class PartnerRepository implements RepositoryInterface
         $query = '
             SELECT ' . implode(',', $columns) . '
             FROM partner
+            WHERE deleted_at IS NULL    
         ';
 
         return DB::select($query);

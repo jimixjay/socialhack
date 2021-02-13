@@ -21,3 +21,12 @@ $router->group(['prefix' => 'match'], function() use ($router) {
     $router->post('create', 'Match\CreateController@execute');
     $router->post('delete', 'Match\DeleteController@execute');
 });
+
+$router->group(['prefix' => 'user'], function() use ($router) {
+    $router->post('create', 'User\CreateController@execute');
+    $router->post('delete', 'User\DeleteController@execute');
+});
+
+$router->group(['prefix' => 'partner'], function() use ($router) {
+    $router->get('list', 'Partner\ListController@execute');
+});
