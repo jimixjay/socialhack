@@ -30,4 +30,5 @@ $router->group(['prefix' => 'user'], function() use ($router) {
 
 $router->group(['prefix' => 'partner'], function() use ($router) {
     $router->get('list', 'Partner\ListController@execute');
+    $router->post('token/auth', 'Partner\TokenAuthController@execute');
 });
