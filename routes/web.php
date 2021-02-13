@@ -17,4 +17,6 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-$router->get('/saludo/{name}', 'HelloController@hello');
+$router->group(['prefix' => 'match'], function() use ($router) {
+    $router->post('create', 'Match\CreateController@execute');
+});
