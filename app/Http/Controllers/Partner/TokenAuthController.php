@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Partner;
 
 use App\Exceptions\PartnerCantBeCreated;
 use App\Exceptions\TokenNotValid;
-use App\Exceptions\UserCantBeCreated;
 use App\Http\Controllers\Controller;
 use App\Repositories\PartnerRepository;
 use App\Services\Http\HttpClient;

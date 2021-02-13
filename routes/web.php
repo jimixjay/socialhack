@@ -23,12 +23,14 @@ $router->group(['prefix' => 'match'], function() use ($router) {
 });
 
 $router->group(['prefix' => 'user'], function() use ($router) {
-    $router->post('create', 'User\CreateController@execute');
-    $router->post('delete', 'User\DeleteController@execute');
     $router->post('token/auth', 'User\TokenAuthController@execute');
 });
 
 $router->group(['prefix' => 'partner'], function() use ($router) {
     $router->get('list', 'Partner\ListController@execute');
     $router->post('token/auth', 'Partner\TokenAuthController@execute');
+
+    $router->group(['prefix' => 'post'], function() use ($router) {
+        $router->post('create', 'Partner\Post\CreateController@execute');
+    });
 });

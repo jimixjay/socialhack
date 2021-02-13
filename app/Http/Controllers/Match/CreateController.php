@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Match;
 
 
 use App\Exceptions\MatchAlreadyExists;
-use App\Exceptions\MatchNotCreated;
 use App\Exceptions\PartnerNotExists;
 use App\Exceptions\UserNotExists;
 use App\Http\Controllers\Controller;
