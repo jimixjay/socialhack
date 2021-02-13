@@ -19,4 +19,5 @@ $router->get('/', function () use ($router) {
 
 $router->group(['prefix' => 'match'], function() use ($router) {
     $router->post('create', 'Match\CreateController@execute');
+    $router->post('delete', 'Match\DeleteController@execute');
 });

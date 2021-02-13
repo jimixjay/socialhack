@@ -19,14 +19,14 @@ class CreateTablePartner extends Migration
             $table->string('name', 128);
             $table->string('username', 128);
             $table->string('password', 128);
-            $table->string('phone', 128);
+            $table->string('phone', 128)->nullable();
             $table->string('email', 128);
-            $table->string('web', 128);
-            $table->string('address', 256);
-            $table->string('cp', 128);
-            $table->string('city', 128);
-            $table->integer('province_id');
-            $table->integer('country_id');
+            $table->string('web', 128)->nullable();
+            $table->string('address', 256)->nullable();
+            $table->string('cp', 128)->nullable();
+            $table->string('city', 128)->nullable();
+            $table->integer('province_id')->nullable();
+            $table->integer('country_id')->nullable();
             $table->text('description');
             $table->string('logo', 512);
 

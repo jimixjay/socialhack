@@ -3,9 +3,10 @@
 namespace App\Repositories;
 
 use App\Exceptions\MatchAlreadyExists;
+use App\Exceptions\MatchNotExists;
 use Illuminate\Support\Facades\DB;
 
-class MatchRepository implements RepositoryInterface
+class MatchRepository extends Repository implements RepositoryInterface
 {
     public function all($columns = ['*'])
     {
@@ -26,16 +27,27 @@ class MatchRepository implements RepositoryInterface
         $query = '
             SELECT *
             FROM match 
-            WHERE 1=1 ';
+            WHERE deleted_at IS NULL AND ';
 
-        $where = [];
-        foreach ($data as $field => $value) {
-            $where[] = $field . ' = \'' . $value . '\'';
+        $this->addWhereFromData($query, $data);
+
+        $result = DB::selectOne($query);
+
+        return !is_null($result);
+    }
+
+    public function existsWithDeletedAt(array $data): bool
+    {
+        if (!count($data)) {
+            return false;
         }
 
-        if (count($where) > 0) {
-            $query .= 'AND ' . implode(' AND ', $where);
-        }
+        $query = '
+            SELECT *
+            FROM match 
+            WHERE deleted_at IS NOT NULL AND ';
+
+        $this->addWhereFromData($query, $data);
 
         $result = DB::selectOne($query);
 
@@ -48,22 +60,47 @@ class MatchRepository implements RepositoryInterface
             throw new MatchAlreadyExists();
         }
 
+        if ($this->existsWithDeletedAt($data)) {
+            $this->removeDeletedAt($data);
+            return;
+        }
+
         $query = '
             INSERT INTO match
         ';
 
-        $fields = [];
-        $values = [];
-        foreach ($data as $field => $value) {
-            $fields[] = '"' . $field . '"';
-            $values[] = '\'' . $value . '\'';
-        }
-
-        $query .= '(' . implode(',', $fields) . ')';
-        $query .= '
-            VALUES
-            ('. implode(',', $values) . ')';
+        $this->addInsertData($query, $data);
 
         DB::insert($query);
+    }
+
+    private function removeDeletedAt(array $data)
+    {
+        $query = '
+            UPDATE match
+            SET deleted_at = NULL, updated_at = \'' . $this->getNow() . '\'
+            WHERE 
+        ';
+
+        $this->addWhereFromData($query, $data);
+
+        DB::update($query);
+    }
+
+    public function delete(array $data)
+    {
+        if (!$this->exists($data)) {
+            throw new MatchNotExists();
+        }
+
+        $query = '
+            UPDATE match
+            SET deleted_at = \'' . $this->getNow() . '\'
+            WHERE 
+        ';
+
+        $this->addWhereFromData($query, $data);
+
+        DB::update($query);
     }
 }

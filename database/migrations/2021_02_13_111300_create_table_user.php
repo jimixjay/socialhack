@@ -19,14 +19,14 @@ class CreateTableUser extends Migration
             $table->string('name', 128);
             $table->string('username', 32);
             $table->string('password', 32);
-            $table->string('google_token', 512);
+            $table->string('google_token', 512)->nullable();
             $table->string('email', 64);
-            $table->string('phone', 32);
-            $table->string('cp', 5);
-            $table->string('city', 128);
-            $table->integer('province_id');
-            $table->integer('country_id');
-            $table->string('avatar', 512);
+            $table->string('phone', 32)->nullable();
+            $table->string('cp', 5)->nullable();
+            $table->string('city', 128)->nullable();
+            $table->integer('province_id')->nullable();
+            $table->integer('country_id')->nullable();
+            $table->string('avatar', 512)->nullable();
 
             $table->timestamps();
             $table->softDeletes();
