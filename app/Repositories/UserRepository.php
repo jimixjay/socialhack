@@ -3,8 +3,9 @@
 namespace App\Repositories;
 
 use Illuminate\Support\Facades\DB;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 
-class UserRepository implements RepositoryInterface
+class UserRepository extends Repository implements RepositoryInterface
 {
     public function all($columns = ['*'])
     {
@@ -30,5 +31,48 @@ class UserRepository implements RepositoryInterface
         $result = DB::selectOne($query);
 
         return !is_null($result);
+    }
+
+    public function existsByClientId(?string $clientId): bool
+    {
+        if (!$clientId) {
+            return false;
+        }
+
+        $query = '
+            SELECT *
+            FROM "user" 
+            WHERE client_id = \'' . $clientId . '\'';
+
+        $result = DB::selectOne($query);
+
+        return !is_null($result);
+    }
+
+    public function createFromGoogle($userInfo, string $clientId)
+    {
+        $username = explode('@', $userInfo->email)[0];
+
+        $slugger = new AsciiSlugger();
+        $slug = $slugger->slug($username);
+
+        $query = '
+            INSERT INTO "user"
+            ("email", "name", "avatar", "slug", "username", "password", "client_id", "created_at", "updated_at")
+            VALUES
+            (
+                \'' . $userInfo->email . '\',
+                \'' . $userInfo->name . '\',
+                \'' . $userInfo->picture . '\',
+                \'' . $slug . '\',
+                \'' . $username . '\',
+                \'\',
+                \'' . $clientId . '\',
+                \'' . $this->getNow() . '\',
+                \'' . $this->getNow() . '\'
+            )
+        ';
+
+        DB::insert($query);
     }
 }

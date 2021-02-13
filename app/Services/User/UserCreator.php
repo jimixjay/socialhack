@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Services\Match;
+namespace App\Services\User;
 
 use App\Exceptions\MatchAlreadyExists;
 use App\Exceptions\MatchNotCreated;
@@ -19,17 +19,13 @@ class UserCreator
         $this->userRepo = $userRepo;
     }
 
-    public function execute(?int $userId, ?int $partnerId)
+    public function execute($userInfo, string $clientId)
     {
-        if ($this->userRepo->exists($userId)) {
-            throw new UserAlreadyExists();
+        if ($this->userRepo->existsByClientId($clientId)) {
+            return true;
         }
 
-        if (!$this->partnerRepo->exists($partnerId)) {
-            throw new PartnerNotExists();
-        }
-
-        $this->matchRepo->create(['user_id' => $userId, 'partner_id' => $partnerId]);
+        $this->userRepo->createFromGoogle($userInfo, $clientId);
     }
 
 }

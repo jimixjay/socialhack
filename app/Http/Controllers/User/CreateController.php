@@ -7,12 +7,10 @@ use App\Exceptions\MatchAlreadyExists;
 use App\Exceptions\PartnerNotExists;
 use App\Exceptions\UserNotExists;
 use App\Http\Controllers\Controller;
-use App\Repositories\MatchRepository;
-use App\Repositories\PartnerRepository;
 use App\Repositories\UserRepository;
-use App\Services\Match\MatchCreator;
 use App\Services\Match\UserCreator;
 use Illuminate\Http\Request;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 
 
 class CreateController extends Controller
@@ -24,12 +22,15 @@ class CreateController extends Controller
         $this->request = $request;
     }
 
-    public function execute(UserRepository $userRepo)
+    public function execute(UserRepository $userRepo, AsciiSlugger $slugger)
     {
         try {
             $userCreator = new UserCreator($userRepo);
 
             $username = $this->request->get('username');
+            $slug = $slugger->slug($username, '_');
+            
+
             $partnerId = $this->request->get('partner_id');
 
             $userCreator->execute($userId, $partnerId);
