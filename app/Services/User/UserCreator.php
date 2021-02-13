@@ -22,10 +22,12 @@ class UserCreator
     public function execute($userInfo, string $clientId)
     {
         if ($this->userRepo->existsByClientId($clientId)) {
-            return true;
+            return $this->userRepo->getOneByClientId($clientId);
         }
 
         $this->userRepo->createFromGoogle($userInfo, $clientId);
+
+        return $this->userRepo->getOneByClientId($clientId);
     }
 
 }

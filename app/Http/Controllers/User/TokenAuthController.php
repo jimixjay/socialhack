@@ -36,12 +36,12 @@ class TokenAuthController extends Controller
 
             try {
                 $userCreator = new UserCreator($userRepo);
-                $userCreator->execute($userInfo, $clientId);
+                $user = $userCreator->execute($userInfo, $clientId);
             } catch (\Exception $e) {
                 throw new UserCantBeCreated($e->getMessage());
             }
 
-            return response()->json(['msg' => 'OK']);
+            return response()->json(['user' => $user]);
 
         } catch (TokenNotValid $e) {
             return $this->exceptionErrorResponse($e, 500, 'uta501', 'No se ha podido validar el login');
