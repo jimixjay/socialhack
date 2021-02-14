@@ -32,6 +32,8 @@ class MockController extends Controller
             $mockCreator = new MockCreator($userRepo);
             $mockCreator->execute($this->generateDataForUser());
 
+            return response()->json(['msg' => 'OK']);
+
             $mockCreator = new MockCreator($partnerRepo);
             $mockCreator->execute($this->generateDataForPartner());
 
