@@ -24,6 +24,7 @@ $router->group(['prefix' => 'match'], function() use ($router) {
 
 $router->group(['prefix' => 'user'], function() use ($router) {
     $router->post('token/auth', 'User\TokenAuthController@execute');
+    $router->get('{userId}', 'User\GetOneController@execute');
 });
 
 $router->group(['prefix' => 'partner'], function() use ($router) {

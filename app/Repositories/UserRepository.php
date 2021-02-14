@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Exceptions\UserNotExists;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 
@@ -40,7 +41,32 @@ class UserRepository extends Repository implements RepositoryInterface
             FROM "user"
             WHERE user_id = \'' . $userId . '\'';
 
-        return DB::selectOne($query);
+        $user = DB::selectOne($query);
+
+        if (!$user) {
+            throw new UserNotExists();
+        }
+
+        $user->budgets = $this->getBudgets($userId);
+
+        return $user;
+    }
+
+    public function getBudgets(int $userId): array
+    {
+        $query = '
+            SELECT b.*
+            FROM budget b 
+            INNER JOIN budget_user bu ON b.budget_id = bu.budget_id
+            WHERE bu.user_id = ' . $userId;
+
+        $budgets = DB::select($query);
+
+        if (!$budgets) {
+            return [];
+        }
+
+        return $budgets;
     }
 
     public function getOneByClientId(string $clientId)
