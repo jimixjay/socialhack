@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Exceptions\MatchAlreadyExists;
 use App\Exceptions\UserNotExists;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\String\Slugger\AsciiSlugger;
@@ -187,6 +188,17 @@ class UserRepository extends Repository implements RepositoryInterface
                 \'' . $this->getNow() . '\'
             )
         ';
+
+        DB::insert($query);
+    }
+
+    public function create($data)
+    {
+        $query = '
+            INSERT INTO "user"
+        ';
+
+        $this->addInsertData($query, $data);
 
         DB::insert($query);
     }

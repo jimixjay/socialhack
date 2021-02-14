@@ -18,7 +18,7 @@ class CreateTableUser extends Migration
             $table->string('slug', 128);
             $table->string('name', 128);
             $table->string('username', 32);
-            $table->string('password', 32);
+            $table->string('password', 128);
             $table->string('google_token', 1024)->nullable();
             $table->string('email', 64);
             $table->string('phone', 32)->nullable();
