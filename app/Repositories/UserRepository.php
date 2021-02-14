@@ -52,7 +52,7 @@ class UserRepository extends Repository implements RepositoryInterface
             throw new UserNotExists();
         }
 
-        $user->budgets = $this->getBudgets($userId);
+        $user->badges = $this->getBadges($userId);
         $user->donations = $this->getDonations($userId);
         $user->matches = $this->getMatches($userId);
 
@@ -76,7 +76,7 @@ class UserRepository extends Repository implements RepositoryInterface
             throw new UserNotExists();
         }
 
-        $user->budgets = $this->getBudgets($user->user_id);
+        $user->badges = $this->getBadges($user->user_id);
         $user->donations = $this->getDonations($user->user_id);
         $user->matches = $this->getMatches($user->user_id);
 
@@ -100,29 +100,29 @@ class UserRepository extends Repository implements RepositoryInterface
             throw new UserNotExists();
         }
 
-        $user->budgets = $this->getBudgets($user->user_id);
+        $user->badges = $this->getBadges($user->user_id);
         $user->donations = $this->getDonations($user->user_id);
         $user->matches = $this->getMatches($user->user_id);
 
         return $user;
     }
 
-    public function getBudgets(int $userId): array
+    public function getBadges(int $userId): array
     {
         $query = '
-            SELECT b.budget_id, b.src
-            FROM budget b 
-            INNER JOIN budget_user bu ON b.budget_id = bu.budget_id
+            SELECT b.badge_id, b.src
+            FROM badge b 
+            INNER JOIN badge_user bu ON b.badge_id = bu.badge_id
             WHERE bu.user_id = ' . $userId . '
             AND b.active = true';
 
-        $budgets = DB::select($query);
+        $badges = DB::select($query);
 
-        if (!$budgets) {
+        if (!$badges) {
             return [];
         }
 
-        return $budgets;
+        return $badges;
     }
 
     public function getDonations(int $userId): array

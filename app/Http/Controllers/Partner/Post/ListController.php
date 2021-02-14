@@ -4,9 +4,7 @@ namespace App\Http\Controllers\Partner\Post;
 
 
 use App\Http\Controllers\Controller;
-use App\Repositories\PartnerRepository;
 use App\Repositories\PostRepository;
-use App\Services\Partner\PartnerList;
 use App\Services\Partner\Post\PostList;
 use Illuminate\Http\Request;
 

@@ -3,15 +3,9 @@
 namespace App\Http\Controllers\User;
 
 
-use App\Exceptions\TokenNotValid;
-use App\Exceptions\UserCantBeCreated;
 use App\Exceptions\UserNotExists;
 use App\Http\Controllers\Controller;
 use App\Repositories\UserRepository;
-use App\Services\Http\HttpClient;
-use App\Services\User\TokenAuthChecker;
-use App\Services\User\TokenInfoGetter;
-use App\Services\User\UserCreator;
 use App\Services\User\UserGetter;
 use Illuminate\Http\Request;
 

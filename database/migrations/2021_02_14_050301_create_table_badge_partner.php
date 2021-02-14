@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddColumnSrcToBudget extends Migration
+class CreateTableBadgePartner extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,13 @@ class AddColumnSrcToBudget extends Migration
      */
     public function up()
     {
-        Schema::table('budget', function (Blueprint $table) {
-            $table->string('src', 512)->nullable();
+        Schema::create('badge_partner', function (Blueprint $table) {
+            $table->bigIncrements('badge_partner_id');
+            $table->bigInteger('partner_id');
+            $table->bigInteger('badge_id');
+
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 

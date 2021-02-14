@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTableBudgetUser extends Migration
+class CreateTableBadgeUser extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateTableBudgetUser extends Migration
      */
     public function up()
     {
-        Schema::create('budget_user', function (Blueprint $table) {
-            $table->bigIncrements('budget_user_id');
+        Schema::create('badge_user', function (Blueprint $table) {
+            $table->bigIncrements('badge_user_id');
             $table->bigInteger('user_id');
-            $table->bigInteger('budget_id');
+            $table->bigInteger('badge_id');
 
             $table->timestamps();
             $table->softDeletes();

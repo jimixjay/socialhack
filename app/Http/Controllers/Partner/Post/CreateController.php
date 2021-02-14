@@ -3,19 +3,12 @@
 namespace App\Http\Controllers\Partner\Post;
 
 
-use App\Exceptions\PartnerCantBeCreated;
 use App\Exceptions\PartnerNotExists;
 use App\Exceptions\Post\ContentCantBeEmpty;
 use App\Exceptions\Post\TitleCantBeEmpty;
-use App\Exceptions\TokenNotValid;
 use App\Http\Controllers\Controller;
-use App\Repositories\PartnerRepository;
 use App\Repositories\PostRepository;
-use App\Services\Http\HttpClient;
-use App\Services\Partner\PartnerCreator;
 use App\Services\Partner\Post\PostCreator;
-use App\Services\Partner\TokenAuthChecker;
-use App\Services\Partner\TokenInfoGetter;
 use Illuminate\Http\Request;
 
 

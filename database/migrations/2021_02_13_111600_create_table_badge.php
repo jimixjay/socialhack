@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTableBudget extends Migration
+class CreateTableBadge extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class CreateTableBudget extends Migration
      */
     public function up()
     {
-        Schema::create('budget', function (Blueprint $table) {
-            $table->bigIncrements('budget_id');
+        Schema::create('badge', function (Blueprint $table) {
+            $table->bigIncrements('badge_id');
             $table->string('name', 128);
             $table->text('description');
             $table->bigInteger('given_points');

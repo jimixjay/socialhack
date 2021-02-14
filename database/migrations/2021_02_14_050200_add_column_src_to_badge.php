@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddColumnTypeToBudget extends Migration
+class AddColumnSrcToBadge extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddColumnTypeToBudget extends Migration
      */
     public function up()
     {
-        Schema::table('budget', function (Blueprint $table) {
-            $table->enum('type', ['user', 'partner', 'all'])->nullable();
+        Schema::table('badge', function (Blueprint $table) {
+            $table->string('src', 512)->nullable();
         });
     }
 

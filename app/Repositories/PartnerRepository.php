@@ -19,28 +19,28 @@ class PartnerRepository extends Repository implements RepositoryInterface
         $partners = DB::select($query);
 
         foreach ($partners as $partnerIndex => $partner) {
-            $partners[$partnerIndex]->budgets = $this->getBudgets($partner->partner_id);
+            $partners[$partnerIndex]->badges = $this->getBadges($partner->partner_id);
         }
 
         return $partners;
     }
 
-    public function getBudgets(int $partnerId): array
+    public function getBadges(int $partnerId): array
     {
         $query = '
-            SELECT b.budget_id, b.src
-            FROM budget b 
-            INNER JOIN budget_partner bp ON b.budget_id = bp.budget_id
+            SELECT b.badge_id, b.src
+            FROM badge b 
+            INNER JOIN badge_partner bp ON b.badge_id = bp.badge_id
             WHERE bp.partner_id = ' . $partnerId . '
             AND b.active = true';
 
-        $budgets = DB::select($query);
+        $badges = DB::select($query);
 
-        if (!$budgets) {
+        if (!$badges) {
             return [];
         }
 
-        return $budgets;
+        return $badges;
     }
 
     public function exists(?int $id): bool
@@ -76,7 +76,7 @@ class PartnerRepository extends Repository implements RepositoryInterface
             throw new PartnerNotExists();
         }
 
-        $partner->budgets = $this->getBudgets($partnerId);
+        $partner->badges = $this->getBadges($partnerId);
 
         return $partner;
     }
@@ -98,7 +98,7 @@ class PartnerRepository extends Repository implements RepositoryInterface
             throw new PartnerNotExists();
         }
 
-        $partner->budgets = $this->getBudgets($partner->partner_id);
+        $partner->badges = $this->getBadges($partner->partner_id);
 
         return $partner;
     }
@@ -178,7 +178,7 @@ class PartnerRepository extends Repository implements RepositoryInterface
         $partners = DB::select($query);
 
         foreach ($partners as $partnerIndex => $partner) {
-            $partners[$partnerIndex]->budgets = $this->getBudgets($partner->partner_id);
+            $partners[$partnerIndex]->badges = $this->getBadges($partner->partner_id);
         }
 
         return $partners;
