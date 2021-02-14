@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Exceptions\MatchAlreadyExists;
-use App\Http\Controllers\Controller;
 use App\Repositories\DonationRepository;
 use App\Repositories\MatchRepository;
 use App\Repositories\PartnerRepository;
@@ -11,12 +9,6 @@ use App\Repositories\PostRepository;
 use App\Repositories\UserRepository;
 use App\Services\MockCreator;
 use Faker\Factory;
-use Faker\Generator;
-use Faker\Guesser\Name;
-use Faker\Provider\es_ES\Person;
-use Faker\Provider\Image;
-use Faker\Provider\Internet;
-use Faker\UniqueGenerator;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 
@@ -28,11 +20,11 @@ class MockController extends Controller
 
     public function execute(UserRepository $userRepo, PartnerRepository $partnerRepo, MatchRepository $matchRepo, DonationRepository $donationRepo, PostRepository $postRepo)
     {
+        return response()->json(['msg' => 'OK']);
+
         try {
             $mockCreator = new MockCreator($userRepo);
             $mockCreator->execute($this->generateDataForUser());
-
-            return response()->json(['msg' => 'OK']);
 
             $mockCreator = new MockCreator($partnerRepo);
             $mockCreator->execute($this->generateDataForPartner());
