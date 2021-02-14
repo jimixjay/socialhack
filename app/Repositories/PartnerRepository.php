@@ -155,4 +155,15 @@ class PartnerRepository extends Repository implements RepositoryInterface
 
         DB::insert($query);
     }
+
+    public function create($data)
+    {
+        $query = '
+            INSERT INTO "partner"
+        ';
+
+        $this->addInsertData($query, $data);
+
+        DB::insert($query);
+    }
 }

@@ -25,7 +25,12 @@ abstract class Repository implements RepositoryInterface
    {
        $fields = [];
        $values = [];
+       $addDates = true;
        foreach ($data as $field => $value) {
+           if ($field == 'created_at' || $field == 'updated_at') {
+               $addDates = false;
+           }
+
            $fields[] = '"' . $field . '"';
            if (is_bool($value)) {
                $values[] = $value ? 'true' : 'false';
@@ -35,10 +40,17 @@ abstract class Repository implements RepositoryInterface
            $values[] = '\'' . $value . '\'';
        }
 
-       $query .= '(' . implode(',', $fields) . ', "created_at", "updated_at")';
+       if ($addDates) {
+           $fields[] = '"created_at"';
+           $fields[] = '"updated_at"';
+           $values[] = '\'' . $this->getNow() . '\'';
+           $values[] = '\'' . $this->getNow() . '\'';
+       }
+
+       $query .= '(' . implode(',', $fields) . ')';
        $query .= '
             VALUES
-            ('. implode(',', $values) . ', \'' . $this->getNow() . '\', \'' . $this->getNow() . '\')';
+            ('. implode(',', $values) . ')';
 
        return $query;
    }

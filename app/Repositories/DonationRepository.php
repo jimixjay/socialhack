@@ -18,13 +18,11 @@ class DonationRepository extends Repository implements RepositoryInterface
         return DB::select($query);
     }
 
-    public function create(array $data, string $payload)
+    public function create(array $data)
     {
         $query = '
             INSERT INTO donation
         ';
-
-        $data['payload'] = $payload;
 
         $this->addInsertData($query, $data);
 

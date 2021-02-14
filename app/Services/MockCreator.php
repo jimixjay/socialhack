@@ -21,7 +21,11 @@ class MockCreator
     public function execute($rows)
     {
         foreach ($rows as $row) {
-            $this->repo->create($row);
+            try {
+                $this->repo->create($row);
+            } catch (MatchAlreadyExists $e) {
+                continue;
+            }
         }
     }
 

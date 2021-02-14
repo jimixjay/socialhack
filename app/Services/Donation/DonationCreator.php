@@ -53,7 +53,9 @@ class DonationCreator
             'receipt_email' => $user->email,
         ], ['stripe_account' => $partner->stripe_account_id]);
 
-        $this->donationRepo->create($data, json_encode($paymentInfo));
+        $data['payload'] = json_encode($paymentInfo);
+
+        $this->donationRepo->create($data);
 
         return true;
     }
