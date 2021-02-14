@@ -25,11 +25,11 @@ class GetOneController extends Controller
         $this->request = $request;
     }
 
-    public function execute(int $userId, UserRepository $userRepo)
+    public function execute(string $slug, UserRepository $userRepo)
     {
         try {
             $userGetter = new UserGetter($userRepo);
-            $user = $userGetter->execute($userId);
+            $user = $userGetter->execute($slug);
 
             return response()->json(['user' => $user]);
 

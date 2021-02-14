@@ -19,9 +19,9 @@ class UserGetter
         $this->userRepo = $userRepo;
     }
 
-    public function execute($userId)
+    public function execute(string $slug)
     {
-        return $this->userRepo->getOneByUserId($userId);
+        return $this->userRepo->getOneBySlug($slug);
     }
 
 }

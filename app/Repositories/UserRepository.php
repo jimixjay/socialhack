@@ -37,7 +37,11 @@ class UserRepository extends Repository implements RepositoryInterface
     public function getOneByUserId(int $userId)
     {
         $query = '
-            SELECT user_id, username, email, name, slug, avatar
+            SELECT user_id, username, email, name, slug, avatar, 
+            CONCAT(
+                to_char(DATE_TRUNC(\'day\', created_at), \'DD\'), \'/\', 
+                to_char(DATE_TRUNC(\'month\', created_at), \'MM\'), \'/\', 
+                to_char(DATE_TRUNC(\'year\', created_at), \'YYYY\')) as created_at
             FROM "user"
             WHERE user_id = \'' . $userId . '\'';
 
@@ -50,6 +54,30 @@ class UserRepository extends Repository implements RepositoryInterface
         $user->budgets = $this->getBudgets($userId);
         $user->donations = $this->getDonations($userId);
         $user->matches = $this->getMatches($userId);
+
+        return $user;
+    }
+
+    public function getOneBySlug(string $slug)
+    {
+        $query = '
+            SELECT user_id, username, email, name, slug, avatar, 
+            CONCAT(
+                to_char(DATE_TRUNC(\'day\', created_at), \'DD\'), \'/\', 
+                to_char(DATE_TRUNC(\'month\', created_at), \'MM\'), \'/\', 
+                to_char(DATE_TRUNC(\'year\', created_at), \'YYYY\')) as created_at
+            FROM "user"
+            WHERE slug = \'' . $slug . '\'';
+
+        $user = DB::selectOne($query);
+
+        if (!$user) {
+            throw new UserNotExists();
+        }
+
+        $user->budgets = $this->getBudgets($user->user_id);
+        $user->donations = $this->getDonations($user->user_id);
+        $user->matches = $this->getMatches($user->user_id);
 
         return $user;
     }

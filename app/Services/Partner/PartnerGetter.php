@@ -19,9 +19,9 @@ class PartnerGetter
         $this->partnerRepo = $partnerRepo;
     }
 
-    public function execute(int $partnerId)
+    public function execute(string $slug)
     {
-        return $this->partnerRepo->getOneByPartnerId($partnerId);
+        return $this->partnerRepo->getOneBySlug($slug);
     }
 
 }

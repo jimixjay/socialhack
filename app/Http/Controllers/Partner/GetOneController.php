@@ -19,11 +19,11 @@ class GetOneController extends Controller
         $this->request = $request;
     }
 
-    public function execute(int $partnerId, PartnerRepository $partnerRepo)
+    public function execute(string $slug, PartnerRepository $partnerRepo)
     {
         try {
             $partnerGetter = new PartnerGetter($partnerRepo);
-            $partner = $partnerGetter->execute($partnerId);
+            $partner = $partnerGetter->execute($slug);
 
             return response()->json(['partner' => $partner]);
 

@@ -77,6 +77,24 @@ class PartnerRepository extends Repository implements RepositoryInterface
         return $partner;
     }
 
+    public function getOneBySlug(string $slug)
+    {
+        $query = '
+            SELECT partner_id, slug, name, description, logo, stripe_account_id
+            FROM "partner"
+            WHERE slug = \'' . $slug . '\'';
+
+        $partner = DB::selectOne($query);
+
+        if (!$partner) {
+            throw new PartnerNotExists();
+        }
+
+        $partner->budgets = $this->getBudgets($partner->partner_id);
+
+        return $partner;
+    }
+
     public function getOneByClientId(string $clientId)
     {
         $query = '
