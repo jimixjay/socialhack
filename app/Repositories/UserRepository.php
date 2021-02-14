@@ -93,7 +93,7 @@ class UserRepository extends Repository implements RepositoryInterface
     public function getMatches(int $userId): array
     {
         $query = '
-            SELECT m.created_at, 
+            SELECT m.updated_at as match_date_at, 
             p.name as partner_name, p.partner_id, p.slug as partner_slug
             FROM match m
             INNER JOIN partner p ON m.partner_id = p.partner_id
