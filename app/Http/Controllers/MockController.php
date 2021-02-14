@@ -20,8 +20,6 @@ class MockController extends Controller
 
     public function execute(UserRepository $userRepo, PartnerRepository $partnerRepo, MatchRepository $matchRepo, DonationRepository $donationRepo, PostRepository $postRepo)
     {
-        return response()->json(['msg' => 'OK']);
-
         try {
             $mockCreator = new MockCreator($userRepo);
             $mockCreator->execute($this->generateDataForUser());
