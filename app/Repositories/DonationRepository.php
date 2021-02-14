@@ -18,17 +18,8 @@ class DonationRepository extends Repository implements RepositoryInterface
         return DB::select($query);
     }
 
-    public function create(array $data)
+    public function create(array $data, string $payload)
     {
-        if ($this->exists($data)) {
-            throw new MatchAlreadyExists();
-        }
-
-        if ($this->existsWithDeletedAt($data)) {
-            $this->removeDeletedAt($data);
-            return;
-        }
-
         $query = '
             INSERT INTO match
         ';

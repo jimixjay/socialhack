@@ -36,6 +36,8 @@ class DonationCreator
             throw new PartnerNotExists();
         }
 
+        $partner = $this->partnerRepo->getOneByPartnerId($data['partner_id']);
+
         if (!array_key_exists('amount', $data) || !is_int($data['amount']) || $data['amount'] <= 0) {
             throw new IncorrectAmount();
         }
@@ -49,9 +51,9 @@ class DonationCreator
             'currency' => 'eur',
             'payment_method_types' => ['card'],
             'receipt_email' => $user->email,
-        ]);
+        ], ['stripe_account' => $partner->stripe_account_id]);
 
-        dump($paymentInfo);
+        $this->donationRepo->create($data, json_encode($paymentInfo));
 
         return true;
     }

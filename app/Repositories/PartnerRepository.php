@@ -2,6 +2,8 @@
 
 namespace App\Repositories;
 
+use App\Exceptions\PartnerNotExists;
+use App\Exceptions\UserNotExists;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 
@@ -26,10 +28,11 @@ class PartnerRepository extends Repository implements RepositoryInterface
     public function getBudgets(int $partnerId): array
     {
         $query = '
-            SELECT b.*
+            SELECT b.budget_id, b.src
             FROM budget b 
             INNER JOIN budget_partner bp ON b.budget_id = bp.budget_id
-            WHERE bp.partner_id = ' . $partnerId;
+            WHERE bp.partner_id = ' . $partnerId . '
+            AND b.active = true';
 
         $budgets = DB::select($query);
 
@@ -54,6 +57,24 @@ class PartnerRepository extends Repository implements RepositoryInterface
         $result = DB::selectOne($query);
 
         return !is_null($result);
+    }
+
+    public function getOneByPartnerId(int $partnerId)
+    {
+        $query = '
+            SELECT partner_id, slug, name, description, logo, stripe_account_id
+            FROM "partner"
+            WHERE partner_id = \'' . $partnerId . '\'';
+
+        $partner = DB::selectOne($query);
+
+        if (!$partner) {
+            throw new PartnerNotExists();
+        }
+
+        $partner->budgets = $this->getBudgets($partnerId);
+
+        return $partner;
     }
 
     public function getOneByClientId(string $clientId)

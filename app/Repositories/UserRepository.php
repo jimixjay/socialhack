@@ -58,7 +58,8 @@ class UserRepository extends Repository implements RepositoryInterface
             SELECT b.*
             FROM budget b 
             INNER JOIN budget_user bu ON b.budget_id = bu.budget_id
-            WHERE bu.user_id = ' . $userId;
+            WHERE bu.user_id = ' . $userId . '
+            AND b.active = true';
 
         $budgets = DB::select($query);
 
