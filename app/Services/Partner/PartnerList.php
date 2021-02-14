@@ -17,7 +17,7 @@ class PartnerList
 
     public function execute()
     {
-        return $this->partnerRepo->all();
+        return $this->partnerRepo->all(['partner_id', 'slug', 'name', 'description', 'logo']);
     }
 
 }
