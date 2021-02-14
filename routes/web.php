@@ -33,4 +33,4 @@ $router->group(['prefix' => 'donation'], function() use ($router) {
     $router->post('subscription/create', 'Donation\Subscription\CreateController@execute');
 });
 
-$router->get('mock/data', 'MockController@execute');
+//$router->get('mock/data', 'MockController@execute');
