@@ -15,7 +15,7 @@ class CreateTablePost extends Migration
     {
         Schema::create('post', function (Blueprint $table) {
             $table->bigIncrements('post_id');
-            $table->string('slug', 128);
+            $table->string('slug', 512);
             $table->bigInteger('partner_id');
             $table->text('title');
             $table->text('content');
