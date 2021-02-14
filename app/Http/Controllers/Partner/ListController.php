@@ -25,7 +25,7 @@ class ListController extends Controller
 
             $partners = $partnerList->execute();
 
-            return response()->json(['msg' => $partners]);
+            return response()->json($partners);
 
         } catch (\Exception $e) {
             return $this->exceptionErrorResponse($e, 500, 'pl500', 'No se ha podido consultar el listado de partners');
