@@ -1,0 +1,1 @@
+C:37:"PHPUnit\Runner\DefaultTestResultCache":331:{a:2:{s:7:"defects";a:1:{s:50:"MatchCreatorTest::testMatchAlreadyExistsButDeleted";i:3;}s:5:"times";a:4:{s:34:"MatchCreatorTest::testUserNotExits";d:0.011;s:37:"MatchCreatorTest::testPartnerNotExits";d:0.035;s:40:"MatchCreatorTest::testMatchAlreadyExists";d:0.036;s:50:"MatchCreatorTest::testMatchAlreadyExistsButDeleted";d:0.008;}}}

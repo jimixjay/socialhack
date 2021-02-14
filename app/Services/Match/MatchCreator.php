@@ -3,8 +3,6 @@
 
 namespace App\Services\Match;
 
-use App\Exceptions\MatchAlreadyExists;
-use App\Exceptions\MatchNotCreated;
 use App\Exceptions\PartnerNotExists;
 use App\Exceptions\UserNotExists;
 use App\Repositories\RepositoryInterface;

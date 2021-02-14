@@ -62,7 +62,11 @@ class PartnerRepository extends Repository implements RepositoryInterface
     public function getOneByPartnerId(int $partnerId)
     {
         $query = '
-            SELECT partner_id, slug, name, description, logo, stripe_account_id
+            SELECT partner_id, slug, name, description, logo, stripe_account_id,
+            CONCAT(
+                to_char(DATE_TRUNC(\'day\', created_at), \'DD\'), \'/\', 
+                to_char(DATE_TRUNC(\'month\', created_at), \'MM\'), \'/\', 
+                to_char(DATE_TRUNC(\'year\', created_at), \'YYYY\')) as created_at
             FROM "partner"
             WHERE partner_id = \'' . $partnerId . '\'';
 
@@ -80,7 +84,11 @@ class PartnerRepository extends Repository implements RepositoryInterface
     public function getOneBySlug(string $slug)
     {
         $query = '
-            SELECT partner_id, slug, name, description, logo, stripe_account_id
+            SELECT partner_id, slug, name, description, logo, stripe_account_id,
+            CONCAT(
+                to_char(DATE_TRUNC(\'day\', created_at), \'DD\'), \'/\', 
+                to_char(DATE_TRUNC(\'month\', created_at), \'MM\'), \'/\', 
+                to_char(DATE_TRUNC(\'year\', created_at), \'YYYY\')) as created_at
             FROM "partner"
             WHERE slug = \'' . $slug . '\'';
 
