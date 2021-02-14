@@ -17,7 +17,7 @@ class PartnerRepository extends Repository implements RepositoryInterface
         $partners = DB::select($query);
 
         foreach ($partners as $partnerIndex => $partner) {
-            $partners[$partnerIndex]->budgets = $this->getBudgets($partner['partner_id']);
+            $partners[$partnerIndex]->budgets = $this->getBudgets($partner->partner_id);
         }
 
         return $partners;
