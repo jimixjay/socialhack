@@ -35,3 +35,8 @@ $router->group(['prefix' => 'partner'], function() use ($router) {
         $router->get('list', 'Partner\Post\ListController@execute');
     });
 });
+
+$router->group(['prefix' => 'donation'], function() use ($router) {
+    $router->post('create', 'Donation\CreateController@execute');
+    $router->post('subscription/create', 'Donation\Subscription\CreateController@execute');
+});

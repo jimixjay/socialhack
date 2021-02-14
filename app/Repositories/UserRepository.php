@@ -33,6 +33,16 @@ class UserRepository extends Repository implements RepositoryInterface
         return !is_null($result);
     }
 
+    public function getOneByUserId(int $userId)
+    {
+        $query = '
+            SELECT user_id, username, email, name, avatar
+            FROM "user"
+            WHERE user_id = \'' . $userId . '\'';
+
+        return DB::selectOne($query);
+    }
+
     public function getOneByClientId(string $clientId)
     {
         $query = '

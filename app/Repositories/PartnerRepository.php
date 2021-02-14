@@ -14,7 +14,30 @@ class PartnerRepository extends Repository implements RepositoryInterface
             FROM "partner"
         ';
 
-        return DB::select($query);
+        $partners = DB::select($query);
+
+        foreach ($partners as $partnerIndex => $partner) {
+            $partners[$partnerIndex]->budgets = $this->getBudgets($partner['partner_id']);
+        }
+
+        return $partners;
+    }
+
+    public function getBudgets(int $partnerId): array
+    {
+        $query = '
+            SELECT b.*
+            FROM budget b 
+            INNER JOIN budget_partner bp ON b.partner_id = bp.partner_id
+            WHERE bp.partner_id = ' . $partnerId;
+
+        $budgets = DB::select($query);
+
+        if (!$budgets) {
+            return [];
+        }
+
+        return $budgets;
     }
 
     public function exists(?int $id): bool
