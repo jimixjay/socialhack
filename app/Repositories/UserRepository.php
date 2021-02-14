@@ -37,7 +37,7 @@ class UserRepository extends Repository implements RepositoryInterface
     public function getOneByUserId(int $userId)
     {
         $query = '
-            SELECT user_id, username, email, name, avatar
+            SELECT user_id, username, email, name, slug, avatar
             FROM "user"
             WHERE user_id = \'' . $userId . '\'';
 
