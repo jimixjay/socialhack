@@ -114,7 +114,8 @@ class UserRepository extends Repository implements RepositoryInterface
             FROM badge b 
             INNER JOIN badge_user bu ON b.badge_id = bu.badge_id
             WHERE bu.user_id = ' . $userId . '
-            AND b.active = true';
+            AND b.active = true
+            ORDER BY b.type ASC, b.code ASC';
 
         $badges = DB::select($query);
 

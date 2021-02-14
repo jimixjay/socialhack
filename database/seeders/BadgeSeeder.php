@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class CountrySeeder extends Seeder
+class BadgeSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -337,7 +337,7 @@ class CountrySeeder extends Seeder
             ];
         }
 
-        DB::table('badge_partner')->insert(
+        DB::table('badge_user')->insert(
             $data
         );
 

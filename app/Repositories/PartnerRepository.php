@@ -32,7 +32,8 @@ class PartnerRepository extends Repository implements RepositoryInterface
             FROM badge b 
             INNER JOIN badge_partner bp ON b.badge_id = bp.badge_id
             WHERE bp.partner_id = ' . $partnerId . '
-            AND b.active = true';
+            AND b.active = true
+            ORDER BY b.type ASC, b.code ASC';
 
         $badges = DB::select($query);
 
