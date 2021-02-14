@@ -48,6 +48,7 @@ class UserRepository extends Repository implements RepositoryInterface
         }
 
         $user->budgets = $this->getBudgets($userId);
+        $user->donations = $this->getDonations($userId);
 
         return $user;
     }
@@ -55,7 +56,7 @@ class UserRepository extends Repository implements RepositoryInterface
     public function getBudgets(int $userId): array
     {
         $query = '
-            SELECT b.*
+            SELECT b.budget_id, b.src
             FROM budget b 
             INNER JOIN budget_user bu ON b.budget_id = bu.budget_id
             WHERE bu.user_id = ' . $userId . '
@@ -68,6 +69,24 @@ class UserRepository extends Repository implements RepositoryInterface
         }
 
         return $budgets;
+    }
+
+    public function getDonations(int $userId): array
+    {
+        $query = '
+            SELECT d.amount, d.is_public, d.is_public_amount, d.created_at, 
+            p.name as partner_name, p.partner_id, p.slug as partner_slug
+            FROM donation d
+            INNER JOIN partner p ON d.partner_id = p.partner_id
+            WHERE d.user_id = ' . $userId;
+
+        $donations = DB::select($query);
+
+        if (!$donations) {
+            return [];
+        }
+
+        return $donations;
     }
 
     public function getOneByClientId(string $clientId)

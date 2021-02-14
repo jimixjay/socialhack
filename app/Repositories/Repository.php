@@ -27,6 +27,11 @@ abstract class Repository implements RepositoryInterface
        $values = [];
        foreach ($data as $field => $value) {
            $fields[] = '"' . $field . '"';
+           if (is_bool($value)) {
+               $values[] = $value ? 'true' : 'false';
+               continue;
+           }
+
            $values[] = '\'' . $value . '\'';
        }
 

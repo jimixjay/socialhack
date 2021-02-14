@@ -21,41 +21,14 @@ class DonationRepository extends Repository implements RepositoryInterface
     public function create(array $data, string $payload)
     {
         $query = '
-            INSERT INTO match
+            INSERT INTO donation
         ';
+
+        $data['payload'] = $payload;
 
         $this->addInsertData($query, $data);
 
         DB::insert($query);
     }
 
-    private function removeDeletedAt(array $data)
-    {
-        $query = '
-            UPDATE match
-            SET deleted_at = NULL, updated_at = \'' . $this->getNow() . '\'
-            WHERE 
-        ';
-
-        $this->addWhereFromData($query, $data);
-
-        DB::update($query);
-    }
-
-    public function delete(array $data)
-    {
-        if (!$this->exists($data)) {
-            throw new MatchNotExists();
-        }
-
-        $query = '
-            UPDATE match
-            SET deleted_at = \'' . $this->getNow() . '\'
-            WHERE 
-        ';
-
-        $this->addWhereFromData($query, $data);
-
-        DB::update($query);
-    }
 }
