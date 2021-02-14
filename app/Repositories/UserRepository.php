@@ -49,6 +49,7 @@ class UserRepository extends Repository implements RepositoryInterface
 
         $user->budgets = $this->getBudgets($userId);
         $user->donations = $this->getDonations($userId);
+        $user->matches = $this->getMatches($userId);
 
         return $user;
     }
@@ -87,6 +88,26 @@ class UserRepository extends Repository implements RepositoryInterface
         }
 
         return $donations;
+    }
+
+    public function getMatches(int $userId): array
+    {
+        $query = '
+            SELECT m.created_at, 
+            p.name as partner_name, p.partner_id, p.slug as partner_slug
+            FROM match m
+            INNER JOIN partner p ON m.partner_id = p.partner_id
+            WHERE m.user_id = ' . $userId . '
+            AND m.deleted_at IS NULL
+            AND p.deleted_at IS NULL';
+
+        $matches = DB::select($query);
+
+        if (!$matches) {
+            return [];
+        }
+
+        return $matches;
     }
 
     public function getOneByClientId(string $clientId)
