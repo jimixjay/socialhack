@@ -166,4 +166,21 @@ class PartnerRepository extends Repository implements RepositoryInterface
 
         DB::insert($query);
     }
+
+    public function getLimitRandom($columns = ['*'], $limit = 10)
+    {
+        $query = '
+            SELECT ' . implode(',', $columns) . '
+            FROM "partner"
+            ORDER BY RANDOM()
+            LIMIT ' . $limit;
+
+        $partners = DB::select($query);
+
+        foreach ($partners as $partnerIndex => $partner) {
+            $partners[$partnerIndex]->budgets = $this->getBudgets($partner->partner_id);
+        }
+
+        return $partners;
+    }
 }

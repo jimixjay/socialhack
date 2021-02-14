@@ -23,7 +23,7 @@ class ListController extends Controller
         try {
             $partnerList = new PartnerList($partnerRepo);
 
-            $partners = $partnerList->execute();
+            $partners = $partnerList->execute(6);
 
             return response()->json($partners);
 

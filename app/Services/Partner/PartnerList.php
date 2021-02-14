@@ -15,9 +15,9 @@ class PartnerList
         $this->partnerRepo = $partnerRepo;
     }
 
-    public function execute()
+    public function execute($limit = 10)
     {
-        return $this->partnerRepo->all(['partner_id', 'slug', 'name', 'description', 'logo']);
+        return $this->partnerRepo->getLimitRandom(['partner_id', 'slug', 'name', 'description', 'logo'], $limit);
     }
 
 }
