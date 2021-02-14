@@ -59,6 +59,30 @@ class UserRepository extends Repository implements RepositoryInterface
         return $user;
     }
 
+    public function getOneByUsername(string $username)
+    {
+        $query = '
+            SELECT user_id, username, email, name, slug, avatar, 
+            CONCAT(
+                to_char(DATE_TRUNC(\'day\', created_at), \'DD\'), \'/\', 
+                to_char(DATE_TRUNC(\'month\', created_at), \'MM\'), \'/\', 
+                to_char(DATE_TRUNC(\'year\', created_at), \'YYYY\')) as created_at
+            FROM "user"
+            WHERE username = \'' . $username . '\'';
+
+        $user = DB::selectOne($query);
+
+        if (!$user) {
+            throw new UserNotExists();
+        }
+
+        $user->budgets = $this->getBudgets($user->user_id);
+        $user->donations = $this->getDonations($user->user_id);
+        $user->matches = $this->getMatches($user->user_id);
+
+        return $user;
+    }
+
     public function getOneBySlug(string $slug)
     {
         $query = '

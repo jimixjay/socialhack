@@ -23,7 +23,7 @@ class UserLogin
     public function execute(array $data)
     {
         try {
-            return $this->userRepo->getOneByUserId($data['user_id']);
+            return $this->userRepo->getOneByUsername($data['username']);
         } catch (UserNotExists $e) {
             throw new LoginFail();
         }
