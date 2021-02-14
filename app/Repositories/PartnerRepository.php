@@ -28,7 +28,7 @@ class PartnerRepository extends Repository implements RepositoryInterface
         $query = '
             SELECT b.*
             FROM budget b 
-            INNER JOIN budget_partner bp ON b.partner_id = bp.partner_id
+            INNER JOIN budget_partner bp ON b.budget_id = bp.budget_id
             WHERE bp.partner_id = ' . $partnerId;
 
         $budgets = DB::select($query);
